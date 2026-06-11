@@ -1,0 +1,90 @@
+.view-projects-link {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-view-projects {
+  position: relative;
+  padding: 16px 48px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  border-radius: 50px;
+  overflow: hidden;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.btn-view-projects:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5), 0 0 60px rgba(168, 85, 247, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Original label — fades out on hover */
+.btn-original {
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.btn-view-projects:hover .btn-original {
+  opacity: 0;
+}
+
+/* Letter overlay — stacked on top, hidden by default */
+.btn-letters {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.btn-letters span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-16px) rotateX(90deg);
+  animation: letterOut 0.3s ease forwards;
+}
+
+/* On hover: animate letters in */
+.btn-view-projects:hover .btn-letters span {
+  animation: letterIn 0.4s ease forwards;
+}
+
+@keyframes letterIn {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) rotateX(90deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+@keyframes letterOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(16px) rotateX(-90deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-view-projects {
+    padding: 12px 36px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+}

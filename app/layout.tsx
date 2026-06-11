@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Big_Shoulders_Inline } from "next/font/google";
 import "./globals.css";
+
+const bigShouldersInline = Big_Shoulders_Inline({
+  variable: "--font-big-shoulders-inline",
+  subsets: ["latin"],
+  weight: "700",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${bigShouldersInline.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
