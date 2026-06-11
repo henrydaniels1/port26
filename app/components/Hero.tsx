@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { AnimatedSquares } from './AnimatedSquares';
 import { TypeWriter } from './TypeWriter';
 import { ViewProjectsButton } from './ViewProjectsButton';
-import './Hero.css';
+import '../styles/Hero.css';
 
 interface HeroProps {
   name?: string;
@@ -20,7 +20,7 @@ export function Hero({
   const scale2 = useTransform(scrollY, [0, 500], [1, 1.5]);
 
   return (
-    <section className="hero bg-[#111727] flex items-center justify-center h-screen">
+    <section className="hero bg-black flex items-center justify-center h-screen">
       <motion.div
         className="hero-background-layer"
         style={{ y: y2, scale: scale2 }}>

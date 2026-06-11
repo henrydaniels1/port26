@@ -1,6 +1,6 @@
 'use client';
 
-import './AnimatedSquares.css';
+import '../styles/AnimatedSquares.css';
 
 export function AnimatedSquares() {
   return (

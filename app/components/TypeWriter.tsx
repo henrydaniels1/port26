@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-import './TypeWriter.css';
+import '../styles/TypeWriter.css';
 
 interface TypeWriterProps {
   text: string;

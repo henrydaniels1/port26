@@ -1,6 +1,6 @@
 'use client';
 
-import './ViewProjectsButton.css';
+import '../styles/ViewProjectsButton.css';
 
 const LETTERS = ['V','I','E','W',' ','P','R','O','J','E','C','T','S'];
 
