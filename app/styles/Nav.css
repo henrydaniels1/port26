@@ -115,9 +115,28 @@
 
 
 
-/* Nav.css */
-body, .hide-default-cursor {
-  cursor: none;
+/* Brand / logo mark.
+   Without an accompanying custom-cursor element, hiding the native cursor
+   globally made the pointer disappear over the hero (and everywhere else),
+   so we keep the default cursor and instead style the logo below. */
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  height: 2.25rem; /* 36px — equivalent to the previous `h-9` navbar logo */
+  color: var(--nav-logo-color, #ffffff);
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-logo:hover {
+  opacity: 0.85;
+}
+
+/* The mark is an inline SVG that fills with `currentColor`, so it always
+   contrasts with the navbar surface in every theme. */
+.nav-logo > svg {
+  display: block;
+  height: 100%;
+  width: auto;
 }
 
 @keyframes marquee {

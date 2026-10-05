@@ -2,3 +2,4 @@ export { Hero } from './Hero';
 export { AnimatedSquares } from './AnimatedSquares';
 export { TypeWriter } from './TypeWriter';
 export { NavBar } from './NavBar';
+export { ChedLogo } from './ChedLogo';

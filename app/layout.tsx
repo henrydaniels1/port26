@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Big_Shoulders_Inline } from "next/font/google";
 import "./globals.css";
+import { ChatBox } from "./components/ChatBox";
 
 const bigShouldersInline = Big_Shoulders_Inline({
   variable: "--font-big-shoulders-inline",
@@ -33,7 +34,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${bigShouldersInline.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">{children}<ChatBox /></body>
     </html>
   );
 }

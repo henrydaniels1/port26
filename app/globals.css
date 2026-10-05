@@ -9,6 +9,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Navbar logo colour. The navbar sits on a dark surface (the black hero at
+     the top of the page and the blurred dark bar once scrolled), so the mark
+     stays light. Override this token (e.g. from a light-theme scope) to flip
+     the logo without touching the component. */
+  --nav-logo-color: #ffffff;
 }
 
 @theme inline {

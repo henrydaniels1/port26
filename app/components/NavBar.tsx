@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChedLogo } from './ChedLogo';
 import '../styles/Nav.css';
 
 const links = ['About Me', 'Projects', 'Contact'];
@@ -34,10 +35,8 @@ export function NavBar() {
       transition={{ duration: 0.8 }}>
 
       {/* Logo */}
-      <a href='#' onClick={close}>
-        <div className='h-9 w-auto nav-link2'>
-          <img src='/logo1.png' className='h-full w-auto object-contain' alt='Logo' />
-        </div>
+      <a href='#' onClick={close} className='nav-logo'>
+        <ChedLogo title='CHED — home' />
       </a>
 
       {/* Desktop links */}
