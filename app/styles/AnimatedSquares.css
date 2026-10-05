@@ -18,27 +18,38 @@
   overflow: hidden;
 }
 
-.square {
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.25);
+/* Icon-bearing squares — spread across the full width and rise from the bottom
+   to the top, with the same blur treatment as the original floating squares. */
+.icon-square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 102, 241, 0.18);
+  border: 1px solid rgba(99, 102, 241, 0.4);
   align-self: flex-end;
   animation: rise linear infinite;
   transform: translateY(100%);
   flex-shrink: 0;
 }
 
-.square-1  { width: 2.5em;  height: 2.5em;  animation-duration: 9.5s;  animation-delay: 0s; }
-.square-2  { width: 5em;    height: 3em;    animation-duration: 17s;   animation-delay: 1s;   filter: blur(5px); }
-.square-3  { width: 2.5em;  height: 4em;    animation-duration: 8s;    animation-delay: 1.5s; filter: blur(3px); }
-.square-4  { width: 3.5em;  height: 2.5em;  animation-duration: 13s;   animation-delay: 0.5s; filter: blur(3px); }
-.square-5  { width: 4em;    height: 3em;    animation-duration: 11s;   animation-delay: 4s;   filter: blur(2px); }
-.square-6  { width: 4em;    height: 5em;    animation-duration: 9s;    animation-delay: 2s;   filter: blur(1px); }
-.square-7  { width: 4em;    height: 8em;    animation-duration: 12s;   animation-delay: 0s;   filter: blur(2.5px); }
-.square-8  { width: 7em;    height: 9.5em;  animation-duration: 18s;   animation-delay: 5s;   filter: blur(6px); }
-.square-9  { width: 4.5em;  height: 5.5em;  animation-duration: 12s;   animation-delay: 6s;   filter: blur(0.5px); }
-.square-10 { width: 3em;    height: 3em;    animation-duration: 10s;   animation-delay: 3s;   background: rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.4); }
-.square-11 { width: 3.5em;  height: 4.5em;  animation-duration: 14s;   animation-delay: 7s;   filter: blur(2px); }
-.square-12 { width: 5em;    height: 3.5em;  animation-duration: 16s;   animation-delay: 4.5s; filter: blur(4px); }
+.icon-square svg {
+  width: 1.6em;
+  height: 1.6em;
+  color: rgba(165, 180, 252, 0.9);
+}
+
+.icon-square-1  { width: 3em;   height: 3em;   animation-duration: 9.5s; animation-delay: 0s; }
+.icon-square-2  { width: 3.5em; height: 3.5em; animation-duration: 17s;  animation-delay: 1s;   filter: blur(5px); }
+.icon-square-3  { width: 4em;   height: 4em;   animation-duration: 8s;   animation-delay: 1.5s; filter: blur(3px); }
+.icon-square-4  { width: 3em;   height: 3em;   animation-duration: 13s;  animation-delay: 0.5s; filter: blur(3px); background: rgba(168, 85, 247, 0.22); border-color: rgba(168, 85, 247, 0.45); }
+.icon-square-4 svg { color: rgba(216, 180, 254, 0.95); }
+.icon-square-5  { width: 3.5em; height: 3.5em; animation-duration: 11s;  animation-delay: 4s;   filter: blur(2px); }
+.icon-square-6  { width: 3em;   height: 3em;   animation-duration: 9s;   animation-delay: 2s;   filter: blur(1px); }
+.icon-square-7  { width: 4em;   height: 4em;   animation-duration: 12s;  animation-delay: 0s;   filter: blur(2.5px); }
+.icon-square-8  { width: 3em;   height: 3em;   animation-duration: 18s;  animation-delay: 5s;   filter: blur(6px); }
+.icon-square-9  { width: 3.5em; height: 3.5em; animation-duration: 12s;  animation-delay: 6s;   filter: blur(0.5px); }
+.icon-square-10 { width: 3em;   height: 3em;   animation-duration: 10s;  animation-delay: 3s;   background: rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.42); }
+.icon-square-10 svg { color: rgba(216, 180, 254, 0.9); }
 
 @keyframes rise {
   from {
@@ -51,7 +62,8 @@
   }
 }
 
+/* On small screens hide a couple so the remaining icons stay well spaced. */
 @media (max-width: 768px) {
-  .square-7 { width: 3em; height: 5em; }
-  .square-8 { width: 4em; height: 1.5em; }
+  .icon-square-6 { display: none; }
+  .icon-square-9 { display: none; }
 }
