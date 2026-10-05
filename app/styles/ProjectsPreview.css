@@ -1,0 +1,333 @@
+/* ==========================================================================
+   Latest Projects — preview section
+   Sits directly under the hero on the same #06080e surface so the two
+   sections read as one continuous canvas.
+   ========================================================================== */
+
+.projects {
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --muted: var(--text-muted);
+  --hairline: var(--card-border);
+  --indigo: #6366f1;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--section-bg);
+  color: var(--foreground);
+  padding: clamp(4.5rem, 9vw, 8rem) 1.5rem clamp(5rem, 10vw, 9rem);
+}
+
+/* Faint indigo grid, faded out towards the edges — echoes the hero squares. */
+.projects::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000 15%, transparent 78%);
+  mask-image: radial-gradient(ellipse 85% 70% at 50% 0%, #000 15%, transparent 78%);
+}
+
+/* Ambient colour glows. */
+.projects::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(48rem 26rem at 12% -6%, var(--glow-a), transparent 70%),
+    radial-gradient(42rem 24rem at 88% 4%, var(--glow-b), transparent 72%);
+}
+
+.projects__inner {
+  position: relative;
+  width: 100%;
+  max-width: 74rem;
+  margin-inline: auto;
+}
+
+/* ---------- Header ---------- */
+
+.projects__head {
+  max-width: 46rem;
+}
+
+.projects__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+.projects__eyebrow::before {
+  content: '';
+  width: 2.25rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--indigo));
+}
+
+.projects__title {
+  margin: 1rem 0 0;
+  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.projects__lede {
+  margin-top: 1.15rem;
+  max-width: 38rem;
+  font-size: clamp(0.95rem, 1.6vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ---------- Grid ---------- */
+
+.projects__list {
+  margin-top: clamp(2.5rem, 5vw, 3.75rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  gap: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+/* ---------- Card ---------- */
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 1.25rem;
+  background: var(--card-bg);
+  transition:
+    transform 0.5s var(--ease),
+    border-color 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+  will-change: transform;
+}
+
+.project-card:hover,
+.project-card:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(129, 140, 248, 0.45);
+  box-shadow: 0 26px 60px -30px rgba(99, 102, 241, 0.85);
+}
+
+.project-card__main {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Cover: gradient panel + optional screenshot + scrim */
+.project-card__cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--card-accent, linear-gradient(135deg, #491498, #6366f1));
+}
+
+.project-card__cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 38%, rgba(6, 8, 14, 0.88));
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.project-card__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease), opacity 0.5s var(--ease);
+}
+
+.project-card:hover .project-card__media {
+  transform: scale(1.06);
+}
+
+/* Shown when a project has no screenshot yet. */
+.project-card__monogram {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-big-shoulders-inline), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(3.5rem, 9vw, 5.5rem);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.22);
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.project-card__badge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 1;
+  padding: 0.34rem 0.68rem;
+  border: 1px solid rgba(129, 140, 248, 0.45);
+  border-radius: 999px;
+  background: rgba(15, 18, 34, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e0e7ff;
+}
+
+/* ---------- Card body ---------- */
+
+.project-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1.15rem 1.25rem 1.3rem;
+}
+
+.project-card__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.project-card__title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: color 0.35s ease;
+}
+
+.project-card__main:hover .project-card__title,
+.project-card__main:focus-visible .project-card__title {
+  color: var(--accent-strong);
+}
+
+.project-card__year {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+}
+
+.project-card__tagline {
+  font-size: 0.925rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 0.55rem;
+  list-style: none;
+}
+
+.project-card__tag {
+  padding: 0.32rem 0.62rem;
+  border: 1px solid var(--chip-border);
+  border-radius: 999px;
+  background: var(--chip-bg);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chip-text);
+}
+
+/* ---------- Card footer ---------- */
+
+.project-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.35rem;
+  padding: 0.85rem 1.25rem 1.05rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.project-card__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  transition: color 0.3s ease;
+}
+
+.project-card__action:hover,
+.project-card__action:focus-visible {
+  color: var(--accent-strong);
+}
+
+.project-card__action svg {
+  transition: transform 0.35s var(--ease);
+}
+
+.project-card__action:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/* ---------- Shared focus ring ---------- */
+
+.projects a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+  border-radius: 0.5rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .project-card__title {
+    font-size: 1.15rem;
+  }
+
+  .project-card__tags {
+    margin-top: 0.25rem;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card__media,
+  .project-card__action svg,
+  .project-card__title {
+    transition: none;
+  }
+
+  .project-card:hover,
+  .project-card:focus-within {
+    transform: none;
+  }
+
+  .project-card:hover .project-card__media {
+    transform: none;
+  }
+}

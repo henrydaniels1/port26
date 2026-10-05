@@ -32,16 +32,28 @@
 
 .nav-link {
   position: relative;
-  color: white;
+  /* Default: white — the desktop nav floats over the always-dark hero. */
+  color: #ffffff;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
-  transition: color 0.3s, transform 0.3s;
+  transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
 }
 
 .nav-link2 {
   position: relative;
-  color: white;
+  color: #ffffff;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
-  transition: color 0.3s, transform 0.3s;
+  transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
+}
+
+/* Once the bar materialises on a theme surface — or the full-screen mobile
+   menu (light or dark) is open — switch to the theme ink colour. */
+.nav-bar.nav-scrolled .nav-link,
+.nav-bar.nav-scrolled .nav-link2,
+.nav-bar.nav-menu-open .nav-link,
+.nav-bar.nav-menu-open .nav-link2,
+.nav-links-mobile .nav-link {
+  color: var(--nav-link-color);
+  text-shadow: none;
 }
 
 .nav-link::before {
@@ -60,7 +72,7 @@
 /* #EF4102 */
 
 .nav-link:hover {
-  color: #f8f8f8;
+  color: var(--accent-strong);
   transform: scale(1.05);
 }
 
@@ -70,7 +82,7 @@
 }
 
 .nav-font{
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* Navbar shell */
@@ -79,11 +91,11 @@
 }
 
 .nav-scrolled {
-  background: rgba(6, 8, 14, 0.75);
+  background: var(--nav-scrolled-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid var(--nav-scrolled-border);
+  box-shadow: var(--nav-scrolled-shadow);
 }
 
 /* Animated hamburger lines */
@@ -91,14 +103,21 @@
   display: block;
   width: 100%;
   height: 2px;
-  background: white;
+  background: #ffffff;
   border-radius: 2px;
   transform-origin: center;
+  transition: background 0.3s ease;
+}
+
+/* Theme-colour the hamburger when it sits on a themed surface. */
+.nav-bar.nav-scrolled .nav-hamburger-line,
+.nav-bar.nav-menu-open .nav-hamburger-line {
+  background: var(--nav-ink);
 }
 
 /* Mobile overlay */
 .nav-mobile-overlay {
-  background: rgba(6, 8, 14, 0.92);
+  background: var(--nav-overlay-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -123,8 +142,15 @@
   display: inline-flex;
   align-items: center;
   height: 2.25rem; /* 36px — equivalent to the previous `h-9` navbar logo */
-  color: var(--nav-logo-color, #ffffff);
+  color: #ffffff; /* sits over the always-dark hero */
   transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Once the nav materialises (or the full-screen menu opens) let the theme
+   token drive the mark so it flips with light/dark mode. */
+.nav-bar.nav-scrolled .nav-logo,
+.nav-bar.nav-menu-open .nav-logo {
+  color: var(--nav-logo-color);
 }
 
 .nav-logo:hover {

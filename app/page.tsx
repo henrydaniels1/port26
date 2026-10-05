@@ -1,4 +1,4 @@
-import { Hero, NavBar } from './components';
+import { Hero, NavBar, ProjectsPreview, SkillsTree } from './components';
 
 export default function Home() {
   return (
@@ -8,6 +8,8 @@ export default function Home() {
         name="EZENWA HENRY-DANIEL"
         subtitle="FullStack Web Developer"
       />
+      <SkillsTree />
+      <ProjectsPreview />
     </main>
   );
 }

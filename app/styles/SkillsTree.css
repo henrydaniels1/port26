@@ -1,0 +1,307 @@
+/* ==========================================================================
+   Skills Tree — a bottom-rooted branching diagram drawn with CSS lines.
+   Trunk → three category stems, each lined with skill "leaves".
+   ========================================================================== */
+
+.skills {
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--section-bg);
+  color: var(--foreground);
+  padding: clamp(4.5rem, 9vw, 8rem) 1.5rem clamp(5rem, 10vw, 9rem);
+}
+
+.skills::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, #000 15%, transparent 78%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, #000 15%, transparent 78%);
+}
+
+.skills::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40rem 22rem at 88% 12%, var(--glow-b), transparent 70%),
+    radial-gradient(40rem 22rem at 10% 88%, var(--glow-a), transparent 72%);
+}
+
+.skills__inner {
+  width: 100%;
+  max-width: 74rem;
+  margin-inline: auto;
+}
+
+/* ---------- Header ---------- */
+
+.skills__head {
+  max-width: 46rem;
+}
+
+.skills__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+.skills__eyebrow::before {
+  content: '';
+  width: 2.25rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #6366f1);
+}
+
+.skills__title {
+  margin: 1rem 0 0;
+  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.skills__lede {
+  margin-top: 1.15rem;
+  max-width: 38rem;
+  font-size: clamp(0.95rem, 1.6vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* ---------- Tree ---------- */
+
+.skills-tree {
+  margin-top: clamp(2.75rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The three category stems, side by side. */
+.tree-branches {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+/* Horizontal branch that spans the three stems and meets the trunk below. */
+.tree-branches::after {
+  content: '';
+  position: absolute;
+  left: 16.66%;
+  right: 16.66%;
+  top: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--tree-line) 18%, var(--tree-line) 82%, transparent);
+}
+
+/* Connect the trunk to the middle of the tree at the branch bar. */
+.tree-trunk {
+  width: 2px;
+  height: clamp(1.5rem, 3vw, 2.25rem);
+  background: linear-gradient(to bottom, var(--tree-line), color-mix(in srgb, var(--tree-line) 55%, transparent));
+}
+
+/* One vertical stem per category. */
+.tree-branch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 0.25rem 2.25rem;
+}
+
+/* The wooden line running down each stem, behind the leaf pills. */
+.tree-branch::before {
+  content: '';
+  position: absolute;
+  top: 2.5rem;            /* just below the category node */
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(to bottom, var(--tree-line), color-mix(in srgb, var(--tree-line) 55%, transparent));
+  z-index: 0;
+  transition: background 0.4s var(--ease);
+}
+
+.tree-branch:hover::before {
+  background: linear-gradient(to bottom, var(--cat), color-mix(in srgb, var(--tree-line) 45%, transparent));
+}
+
+/* Category node (a bud at the top of the stem). */
+.tree-branch__node {
+  position: relative;
+  z-index: 1;
+  padding: 0.5rem 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--cat) 55%, transparent);
+  border-radius: 999px;
+  background: var(--tree-node-bg);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  box-shadow: 0 8px 24px -14px color-mix(in srgb, var(--cat) 60%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--cat) 12%, transparent);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+.tree-branch:hover .tree-branch__node {
+  transform: translateY(-2px);
+  border-color: var(--cat);
+  box-shadow: 0 14px 34px -16px var(--cat), inset 0 0 0 1px color-mix(in srgb, var(--cat) 18%, transparent);
+}
+
+/* Leaves — the actual skills. */
+.tree-branch__skills {
+  position: relative;
+  z-index: 1;
+  margin: 1.15rem 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  list-style: none;
+  padding: 0;
+}
+
+.tree-branch__skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.85rem;
+  border: 1px solid var(--chip-border);
+  border-radius: 999px;
+  background: var(--chip-bg);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--chip-text);
+  cursor: default;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease), color 0.35s ease;
+}
+
+.tree-branch__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cat);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cat) 16%, transparent);
+  transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+  flex-shrink: 0;
+}
+
+.tree-branch__skill:hover {
+  transform: translateX(3px);
+  border-color: color-mix(in srgb, var(--cat) 55%, transparent);
+  color: var(--foreground);
+  box-shadow: 0 6px 22px -12px color-mix(in srgb, var(--cat) 70%, transparent);
+}
+
+.tree-branch__skill:hover .tree-branch__dot {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--cat) 18%, transparent), 0 0 12px color-mix(in srgb, var(--cat) 70%, transparent);
+}
+
+/* Root node — sits at the base, capped by the trunk. */
+.tree-root {
+  position: relative;
+  margin-top: 0.35rem;
+  padding: 0.85rem 1.9rem;
+  border-radius: 999px;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  background: var(--tree-node-bg);
+  border: 1px solid var(--chip-border);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 16px 40px -22px var(--glow-b), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.tree-root__glow {
+  position: absolute;
+  inset: -14px -30%;
+  z-index: -1;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, var(--glow-b), transparent);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.skills a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+  border-radius: 0.5rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 720px) {
+  .tree-branches {
+    gap: 0.75rem;
+  }
+  .tree-branch__node {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    padding: 0.45rem 0.8rem;
+  }
+  .tree-branch__skill {
+    font-size: 0.72rem;
+    padding: 0.36rem 0.7rem;
+  }
+  .tree-root {
+    padding: 0.7rem 1.3rem;
+    letter-spacing: 0.12em;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .tree-branches {
+    gap: 0.5rem;
+  }
+  .tree-branch {
+    padding: 0 0 1.5rem;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .tree-branch,
+  .tree-branch__node,
+  .tree-branch__skill,
+  .tree-branch__dot {
+    transition: none !important;
+    animation: none !important;
+  }
+}

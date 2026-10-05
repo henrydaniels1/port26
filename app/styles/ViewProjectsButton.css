@@ -1,90 +1,260 @@
-.view-projects-link {
-  text-decoration: none;
-  display: inline-block;
+/* ==========================================================================
+   "View Projects" — premium pill button
+   --------------------------------------------------------------------------
+   Layer stack (bottom -> top):
+     .vp-btn            glass base + hairline border
+     .vp-btn::before    rotating conic-gradient ring (hover only)
+     .vp-btn__spot      cursor-following spotlight (--vp-mx / --vp-my)
+     .vp-btn::after     sheen that sweeps across on hover
+     .vp-btn__label     label on a masked track that rolls up on hover
+     .vp-btn__icon      two arrows that slide through like a conveyor
+   ========================================================================== */
+
+@property --vp-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
-.btn-view-projects {
+.vp-btn {
+  --vp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --vp-mx: 50%;
+  --vp-my: 50%;
+
   position: relative;
-  padding: 16px 48px;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  cursor: pointer;
-  border-radius: 50px;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
   overflow: hidden;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-  backdrop-filter: blur(10px);
+  padding: 1.05rem 2.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+    rgba(8, 10, 18, 0.55);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: #ffffff;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 12px 34px -14px rgba(0, 0, 0, 0.85);
+  transition:
+    transform 0.5s var(--vp-ease),
+    border-color 0.5s var(--vp-ease),
+    box-shadow 0.5s var(--vp-ease),
+    background-color 0.5s var(--vp-ease);
 }
 
-.btn-view-projects:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5), 0 0 60px rgba(168, 85, 247, 0.3);
-  transform: translateY(-2px);
-}
+/* --- rotating conic ring ------------------------------------------------- */
 
-/* Original label — fades out on hover */
-.btn-original {
-  display: block;
-  transition: opacity 0.2s ease;
-}
-
-.btn-view-projects:hover .btn-original {
-  opacity: 0;
-}
-
-/* Letter overlay — stacked on top, hidden by default */
-.btn-letters {
+.vp-btn::before {
+  content: '';
   position: absolute;
   inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-}
-
-.btn-letters span {
-  display: inline-block;
+  z-index: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--vp-angle),
+    rgba(99, 102, 241, 0) 0deg,
+    rgba(129, 140, 248, 0.95) 45deg,
+    rgba(168, 85, 247, 0.95) 95deg,
+    rgba(99, 102, 241, 0) 165deg,
+    rgba(99, 102, 241, 0) 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
   opacity: 0;
-  transform: translateY(-16px) rotateX(90deg);
-  animation: letterOut 0.3s ease forwards;
+  pointer-events: none;
+  animation: vp-ring 4.5s linear infinite;
+  animation-play-state: paused;
+  transition: opacity 0.5s var(--vp-ease);
 }
 
-/* On hover: animate letters in */
-.btn-view-projects:hover .btn-letters span {
-  animation: letterIn 0.4s ease forwards;
-}
-
-@keyframes letterIn {
-  from {
-    opacity: 0;
-    transform: translateY(-16px) rotateX(90deg);
-  }
+@keyframes vp-ring {
   to {
-    opacity: 1;
-    transform: translateY(0) rotateX(0deg);
+    --vp-angle: 360deg;
   }
 }
 
-@keyframes letterOut {
-  from {
-    opacity: 1;
-    transform: translateY(0) rotateX(0deg);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(16px) rotateX(-90deg);
-  }
+/* --- sheen sweep -------------------------------------------------------- */
+
+.vp-btn::after {
+  content: '';
+  position: absolute;
+  top: -25%;
+  left: 0;
+  z-index: 2;
+  width: 45%;
+  height: 150%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: translateX(-240%) skewX(-18deg);
+  pointer-events: none;
+  transition: transform 0.95s var(--vp-ease);
 }
+
+/* --- cursor spotlight --------------------------------------------------- */
+
+.vp-btn__spot {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: radial-gradient(
+    9rem circle at var(--vp-mx) var(--vp-my),
+    rgba(148, 163, 255, 0.4),
+    transparent 62%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s var(--vp-ease);
+}
+
+/* --- hover / focus / active -------------------------------------------- */
+
+.vp-btn:hover,
+.vp-btn:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 22px 48px -20px rgba(99, 102, 241, 0.9),
+    0 0 34px -6px rgba(168, 85, 247, 0.45);
+}
+
+.vp-btn:hover::before,
+.vp-btn:focus-visible::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.vp-btn:hover::after {
+  transform: translateX(330%) skewX(-18deg);
+}
+
+.vp-btn:hover .vp-btn__spot,
+.vp-btn:focus-visible .vp-btn__spot {
+  opacity: 1;
+}
+
+.vp-btn:active {
+  transform: translateY(-1px) scale(0.985);
+  transition-duration: 0.15s;
+}
+
+.vp-btn:focus-visible {
+  outline: 2px solid #a5b4fc;
+  outline-offset: 4px;
+}
+
+/* --- label that rolls up ------------------------------------------------ */
+
+.vp-btn__label {
+  position: relative;
+  z-index: 3;
+  display: block;
+  height: 1.2em;
+  overflow: hidden;
+}
+
+.vp-btn__roll {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.55s var(--vp-ease);
+}
+
+.vp-btn__roll > span {
+  display: flex;
+  align-items: center;
+  height: 1.2em;
+  line-height: 1;
+}
+
+.vp-btn:hover .vp-btn__roll,
+.vp-btn:focus-visible .vp-btn__roll {
+  transform: translateY(-1.2em);
+}
+
+/* --- arrows that slide through ----------------------------------------- */
+
+.vp-btn__icon {
+  position: relative;
+  z-index: 3;
+  width: 1.05em;
+  height: 1.05em;
+  overflow: hidden;
+}
+
+.vp-btn__icon svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s var(--vp-ease);
+}
+
+.vp-btn__icon svg:last-child {
+  transform: translateX(-150%);
+}
+
+.vp-btn:hover .vp-btn__icon svg:first-child,
+.vp-btn:focus-visible .vp-btn__icon svg:first-child {
+  transform: translateX(150%);
+}
+
+.vp-btn:hover .vp-btn__icon svg:last-child,
+.vp-btn:focus-visible .vp-btn__icon svg:last-child {
+  transform: translateX(0);
+}
+
+/* --- responsive --------------------------------------------------------- */
 
 @media (max-width: 768px) {
-  .btn-view-projects {
-    padding: 12px 36px;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+  .vp-btn {
+    gap: 0.6rem;
+    padding: 0.9rem 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+}
+
+@media (max-width: 420px) {
+  .vp-btn {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.72rem;
+  }
+}
+
+/* --- reduced motion ----------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .vp-btn,
+  .vp-btn::after,
+  .vp-btn__roll,
+  .vp-btn__spot,
+  .vp-btn__icon svg {
+    transition: none;
+  }
+
+  .vp-btn::before {
+    animation: none;
+  }
+
+  .vp-btn:hover,
+  .vp-btn:focus-visible {
+    transform: none;
   }
 }

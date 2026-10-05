@@ -42,6 +42,28 @@
   opacity: 0;
 }
 
+/* "FullStack Web Developer" tagline under the name. Uses the Space Grotesk
+   UI face for a crisp, premium feel while matching the typewriter's weight. */
+.hero-subtitle {
+  font-family: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  margin-top: 1.1rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+  background: linear-gradient(120deg, #ffffff 0%, #c7d2fe 55%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 640px) {
+  .hero-subtitle {
+    letter-spacing: 0.2em;
+  }
+}
+
 .cta-button {
   display: inline-block;
   padding: 14px 40px;

@@ -61,9 +61,7 @@ export function Hero({
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.2 }}
           style={{ y: y2, scale: scale2 }}>
-          <a href="#projects">
-            <ViewProjectsButton />
-          </a>
+          <ViewProjectsButton href="#projects" />
         </motion.div>
       </div>
 

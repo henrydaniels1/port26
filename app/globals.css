@@ -7,13 +7,66 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  /* Navbar logo colour. The navbar sits on a dark surface (the black hero at
-     the top of the page and the blurred dark bar once scrolled), so the mark
-     stays light. Override this token (e.g. from a light-theme scope) to flip
-     the logo without touching the component. */
+  /* ===== Light theme (default when no data-theme is present) ===== */
+  --background: #f5f6fb;
+  --foreground: #16171f;
+
+  --nav-logo-color: #16171f;
+  --nav-link-color: #16171f;
+  --nav-ink: #16171f; /* hamburger + theme toggle */
+  --nav-scrolled-bg: rgba(255, 255, 255, 0.78);
+  --nav-scrolled-border: rgba(18, 22, 40, 0.1);
+  --nav-scrolled-shadow: 0 4px 24px rgba(18, 22, 40, 0.08);
+  --nav-overlay-bg: rgba(255, 255, 255, 0.94);
+
+  --section-bg: #f5f6fb;
+  --card-bg: rgba(255, 255, 255, 0.72);
+  --card-border: rgba(18, 22, 40, 0.1);
+  --text-muted: #5b647a;
+
+  --chip-bg: rgba(18, 22, 40, 0.04);
+  --chip-border: rgba(18, 22, 40, 0.1);
+  --chip-text: #39415a;
+
+  --grid-line: rgba(99, 102, 241, 0.12);
+  --glow-a: rgba(73, 20, 152, 0.1);
+  --glow-b: rgba(99, 102, 241, 0.12);
+  --accent-strong: #4338ca;
+
+  --tree-line: rgba(18, 22, 40, 0.4);
+  --tree-node-bg: rgba(255, 255, 255, 0.85);
+  --focus-ring: #6366f1;
+}
+
+:root[data-theme='dark'] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+
   --nav-logo-color: #ffffff;
+  --nav-link-color: #ffffff;
+  --nav-ink: #ffffff;
+  --nav-scrolled-bg: rgba(6, 8, 14, 0.78);
+  --nav-scrolled-border: rgba(99, 102, 241, 0.15);
+  --nav-scrolled-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --nav-overlay-bg: rgba(6, 8, 14, 0.94);
+
+  --section-bg: #06080e;
+  --card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-muted: rgba(255, 255, 255, 0.62);
+
+  --chip-bg: rgba(255, 255, 255, 0.04);
+  --chip-border: rgba(255, 255, 255, 0.1);
+  --chip-text: rgba(255, 255, 255, 0.74);
+
+  --grid-line: rgba(99, 102, 241, 0.08);
+  --glow-a: rgba(73, 20, 152, 0.42);
+  --glow-b: rgba(99, 102, 241, 0.3);
+  --accent-strong: #a5b4fc;
+
+  --tree-line: rgba(255, 255, 255, 0.42);
+  --tree-node-bg: rgba(255, 255, 255, 0.06);
+  --focus-ring: #a5b4fc;
 }
 
 @theme inline {
@@ -23,13 +76,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -37,7 +83,8 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, Helvetica, sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 main {

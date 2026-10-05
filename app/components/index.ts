@@ -3,3 +3,8 @@ export { AnimatedSquares } from './AnimatedSquares';
 export { TypeWriter } from './TypeWriter';
 export { NavBar } from './NavBar';
 export { ChedLogo } from './ChedLogo';
+export { ViewProjectsButton } from './ViewProjectsButton';
+export { ProjectsPreview } from './ProjectsPreview';
+export { SkillsTree } from './SkillsTree';
+export { ThemeProvider, useTheme } from './ThemeProvider';
+export { ThemeToggle } from './ThemeToggle';
