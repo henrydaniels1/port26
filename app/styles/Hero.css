@@ -52,7 +52,7 @@
   margin-top: 1.1rem;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.78);
-  background: linear-gradient(120deg, #ffffff 0%, #c7d2fe 55%, #a5b4fc 100%);
+  background: var(--hero-subtitle-grad);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

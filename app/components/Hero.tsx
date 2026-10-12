@@ -20,7 +20,7 @@ export function Hero({
   const scale2 = useTransform(scrollY, [0, 500], [1, 1.5]);
 
   return (
-    <section className="hero bg-black flex items-center justify-center h-screen">
+    <section className="hero flex items-center justify-center h-screen">
       <motion.div
         className="hero-background-layer"
         style={{ y: y2, scale: scale2 }}>

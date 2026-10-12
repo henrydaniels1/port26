@@ -5,7 +5,7 @@
   width: 100%;
   height: 100vh;
   /* background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%); */
-  background: #06080e;
+  background: var(--background);
   overflow: hidden;
   z-index: 1;
 }
@@ -24,8 +24,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(99, 102, 241, 0.18);
-  border: 1px solid rgba(99, 102, 241, 0.4);
+  background: var(--hero-square-bg);
+  border: 1px solid var(--hero-square-border);
   align-self: flex-end;
   animation: rise linear infinite;
   transform: translateY(100%);
@@ -35,21 +35,21 @@
 .icon-square svg {
   width: 1.6em;
   height: 1.6em;
-  color: rgba(165, 180, 252, 0.9);
+  color: var(--hero-icon);
 }
 
 .icon-square-1  { width: 3em;   height: 3em;   animation-duration: 9.5s; animation-delay: 0s; }
 .icon-square-2  { width: 3.5em; height: 3.5em; animation-duration: 17s;  animation-delay: 1s;   filter: blur(5px); }
 .icon-square-3  { width: 4em;   height: 4em;   animation-duration: 8s;   animation-delay: 1.5s; filter: blur(3px); }
-.icon-square-4  { width: 3em;   height: 3em;   animation-duration: 13s;  animation-delay: 0.5s; filter: blur(3px); background: rgba(168, 85, 247, 0.22); border-color: rgba(168, 85, 247, 0.45); }
-.icon-square-4 svg { color: rgba(216, 180, 254, 0.95); }
+.icon-square-4  { width: 3em;   height: 3em;   animation-duration: 13s;  animation-delay: 0.5s; filter: blur(3px); background: var(--hero-square-purple-bg); border-color: var(--hero-square-purple-border); }
+.icon-square-4 svg { color: var(--hero-icon-purple); }
 .icon-square-5  { width: 3.5em; height: 3.5em; animation-duration: 11s;  animation-delay: 4s;   filter: blur(2px); }
 .icon-square-6  { width: 3em;   height: 3em;   animation-duration: 9s;   animation-delay: 2s;   filter: blur(1px); }
 .icon-square-7  { width: 4em;   height: 4em;   animation-duration: 12s;  animation-delay: 0s;   filter: blur(2.5px); }
 .icon-square-8  { width: 3em;   height: 3em;   animation-duration: 18s;  animation-delay: 5s;   filter: blur(6px); }
 .icon-square-9  { width: 3.5em; height: 3.5em; animation-duration: 12s;  animation-delay: 6s;   filter: blur(0.5px); }
-.icon-square-10 { width: 3em;   height: 3em;   animation-duration: 10s;  animation-delay: 3s;   background: rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.42); }
-.icon-square-10 svg { color: rgba(216, 180, 254, 0.9); }
+.icon-square-10 { width: 3em;   height: 3em;   animation-duration: 10s;  animation-delay: 3s;   background: var(--hero-square-purple-bg); border-color: var(--hero-square-purple-border); }
+.icon-square-10 svg { color: var(--hero-icon-purple); }
 
 @keyframes rise {
   from {

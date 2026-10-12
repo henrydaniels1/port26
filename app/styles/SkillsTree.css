@@ -1,6 +1,7 @@
 /* ==========================================================================
-   Skills Tree — a bottom-rooted branching diagram drawn with CSS lines.
-   Trunk → three category stems, each lined with skill "leaves".
+   Skills Constellation — a star-map drawn over a glass panel.
+   North-star root → four category hubs → skill pills, wired with SVG links.
+   Below 1024px it reflows into a stacked tree (root → trunk → clusters).
    ========================================================================== */
 
 .skills {
@@ -85,223 +86,468 @@
   color: var(--text-muted);
 }
 
-/* ---------- Tree ---------- */
+/* ---------- Panel ---------- */
 
-.skills-tree {
+.constellation {
+  position: relative;
   margin-top: clamp(2.75rem, 5vw, 4rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* The three category stems, side by side. */
-.tree-branches {
-  position: relative;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1rem, 3vw, 2.5rem);
-}
-
-/* Horizontal branch that spans the three stems and meets the trunk below. */
-.tree-branches::after {
-  content: '';
-  position: absolute;
-  left: 16.66%;
-  right: 16.66%;
-  top: 100%;
-  height: 2px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, transparent, var(--tree-line) 18%, var(--tree-line) 82%, transparent);
-}
-
-/* Connect the trunk to the middle of the tree at the branch bar. */
-.tree-trunk {
-  width: 2px;
-  height: clamp(1.5rem, 3vw, 2.25rem);
-  background: linear-gradient(to bottom, var(--tree-line), color-mix(in srgb, var(--tree-line) 55%, transparent));
-}
-
-/* One vertical stem per category. */
-.tree-branch {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0 0.25rem 2.25rem;
-}
-
-/* The wooden line running down each stem, behind the leaf pills. */
-.tree-branch::before {
-  content: '';
-  position: absolute;
-  top: 2.5rem;            /* just below the category node */
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: linear-gradient(to bottom, var(--tree-line), color-mix(in srgb, var(--tree-line) 55%, transparent));
-  z-index: 0;
-  transition: background 0.4s var(--ease);
-}
-
-.tree-branch:hover::before {
-  background: linear-gradient(to bottom, var(--cat), color-mix(in srgb, var(--tree-line) 45%, transparent));
-}
-
-/* Category node (a bud at the top of the stem). */
-.tree-branch__node {
-  position: relative;
-  z-index: 1;
-  padding: 0.5rem 1.15rem;
-  border: 1px solid color-mix(in srgb, var(--cat) 55%, transparent);
-  border-radius: 999px;
-  background: var(--tree-node-bg);
+  aspect-ratio: 16 / 9;
+  border-radius: 28px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  overflow: hidden;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--foreground);
-  box-shadow: 0 8px 24px -14px color-mix(in srgb, var(--cat) 60%, transparent),
-    inset 0 0 0 1px color-mix(in srgb, var(--cat) 12%, transparent);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+  box-shadow:
+    0 40px 90px -60px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.tree-branch:hover .tree-branch__node {
-  transform: translateY(-2px);
-  border-color: var(--cat);
-  box-shadow: 0 14px 34px -16px var(--cat), inset 0 0 0 1px color-mix(in srgb, var(--cat) 18%, transparent);
+/* ---------- Sky (decorative backdrop) ---------- */
+
+.constellation__sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--grid-line) 1px, transparent 1.5px);
+  background-size: 52px 52px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 88%);
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 88%);
 }
 
-/* Leaves — the actual skills. */
-.tree-branch__skills {
-  position: relative;
+.sky-star {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: var(--accent-strong);
+  box-shadow: 0 0 10px var(--accent-strong);
+  animation: sky-twinkle 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes sky-twinkle {
+  from {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 0.9;
+    transform: scale(1.25);
+  }
+}
+
+/* ---------- Links ---------- */
+
+.constellation__links {
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  margin: 1.15rem 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.55rem;
-  list-style: none;
-  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
 }
 
-.tree-branch__skill {
+.link {
+  fill: none;
+  stroke: color-mix(in srgb, var(--cat) 50%, transparent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: var(--o, 0.5);
+  transition: opacity 0.35s var(--ease), stroke 0.35s var(--ease);
+}
+
+.link.is-dim {
+  --o: 0.1;
+}
+
+.link.is-active {
+  --o: 0.85;
+  stroke: color-mix(in srgb, var(--cat) 85%, transparent);
+}
+
+.link--pulse {
+  --o: 0;
+  stroke: var(--cat);
+  stroke-width: 2;
+  stroke-dasharray: 4 20;
+  animation: link-dash 2.8s linear infinite;
+}
+
+.link--pulse--core {
+  --o: 0.4;
+}
+
+.link--pulse.is-active {
+  --o: 0.9;
+}
+
+.link--pulse--core.is-dim {
+  --o: 0.07;
+}
+
+.link--pulse--core.is-active {
+  --o: 0.95;
+}
+
+@keyframes link-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+/* ---------- Nodes ---------- */
+
+.node {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  translate: -50% -50%;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.42rem 0.85rem;
-  border: 1px solid var(--chip-border);
+  white-space: nowrap;
   border-radius: 999px;
-  background: var(--chip-bg);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  color: var(--chip-text);
   cursor: default;
-  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease),
-    box-shadow 0.35s var(--ease), color 0.35s ease;
+  transition:
+    scale 0.35s var(--ease),
+    filter 0.35s var(--ease),
+    border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    color 0.35s var(--ease);
 }
 
-.tree-branch__dot {
+/* North star — sits above every hub and pulses a halo ring. */
+.node--root {
+  z-index: 4;
+  padding: 0.9rem 1.7rem;
+  gap: 0.65rem;
+  background: var(--tree-node-bg);
+  border: 1px solid color-mix(in srgb, var(--focus-ring) 55%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  box-shadow:
+    0 20px 50px -28px var(--glow-b),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.node--root .node__icon {
+  display: flex;
+  color: var(--focus-ring);
+}
+
+.node--root::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: inherit;
+  border: 1px solid color-mix(in srgb, var(--focus-ring) 60%, transparent);
+  animation: root-ping 3s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes root-ping {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(1.22);
+    opacity: 0;
+  }
+}
+
+/* Category hub — a glass pill with icon, label and skill count. */
+.node--hub {
+  z-index: 3;
+  padding: 0.55rem 0.95rem;
+  gap: 0.55rem;
+  background: var(--tree-node-bg);
+  border: 1px solid color-mix(in srgb, var(--cat) 48%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  box-shadow:
+    0 14px 34px -20px color-mix(in srgb, var(--cat) 80%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.node--hub .node__icon {
+  display: flex;
+  color: var(--cat);
+}
+
+.node__count {
+  display: grid;
+  place-items: center;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  padding-inline: 0.32rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cat) 18%, transparent);
+  color: var(--cat);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* Skill pill — dot, name and a depth underline (width = level). */
+.node--skill {
+  padding: 0.44rem 0.85rem 0.58rem;
+  gap: 0.5rem;
+  background: color-mix(in srgb, var(--section-bg) 84%, transparent);
+  border: 1px solid var(--chip-border);
+  color: var(--chip-text);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.node__dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--cat);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cat) 16%, transparent);
-  transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cat) 15%, transparent);
   flex-shrink: 0;
+  transition: box-shadow 0.3s var(--ease);
 }
 
-.tree-branch__skill:hover {
-  transform: translateX(3px);
-  border-color: color-mix(in srgb, var(--cat) 55%, transparent);
-  color: var(--foreground);
-  box-shadow: 0 6px 22px -12px color-mix(in srgb, var(--cat) 70%, transparent);
+.node__name {
+  line-height: 1;
 }
 
-.tree-branch__skill:hover .tree-branch__dot {
-  transform: scale(1.35);
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--cat) 18%, transparent), 0 0 12px color-mix(in srgb, var(--cat) 70%, transparent);
-}
-
-/* Root node — sits at the base, capped by the trunk. */
-.tree-root {
-  position: relative;
-  margin-top: 0.35rem;
-  padding: 0.85rem 1.9rem;
-  border-radius: 999px;
-  font-size: clamp(0.85rem, 2vw, 1rem);
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--foreground);
-  background: var(--tree-node-bg);
-  border: 1px solid var(--chip-border);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 16px 40px -22px var(--glow-b), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-.tree-root__glow {
+.node__bar {
   position: absolute;
-  inset: -14px -30%;
-  z-index: -1;
+  left: 50%;
+  bottom: 3.5px;
+  translate: -50% 0;
+  height: 2.5px;
+  width: calc(var(--lvl) * 18%);
   border-radius: 999px;
-  background: radial-gradient(closest-side, var(--glow-b), transparent);
-  opacity: 0.8;
-  pointer-events: none;
+  background: linear-gradient(90deg, var(--cat), color-mix(in srgb, var(--cat) 40%, transparent));
+  opacity: 0.75;
+  transition: opacity 0.3s var(--ease);
 }
 
-.skills a:focus-visible {
+/* Hover feedback (pointer devices only). */
+@media (hover: hover) {
+  .node:hover {
+    scale: 1.06;
+    z-index: 6;
+  }
+
+  .node--hub:hover {
+    border-color: var(--cat);
+  }
+
+  .node--skill:hover {
+    border-color: color-mix(in srgb, var(--cat) 60%, transparent);
+    color: var(--foreground);
+    box-shadow: 0 12px 30px -16px color-mix(in srgb, var(--cat) 80%, transparent);
+  }
+
+  .node--skill:hover .node__dot {
+    box-shadow:
+      0 0 0 5px color-mix(in srgb, var(--cat) 18%, transparent),
+      0 0 12px color-mix(in srgb, var(--cat) 70%, transparent);
+  }
+}
+
+/* Cluster focus states — hovering a hub or skill lights the whole branch. */
+.node.is-dim {
+  filter: grayscale(0.75) opacity(0.28);
+}
+
+.node.is-active {
+  border-color: color-mix(in srgb, var(--cat) 70%, transparent);
+  color: var(--foreground);
+  box-shadow: 0 14px 34px -16px color-mix(in srgb, var(--cat) 85%, transparent);
+}
+
+.node.is-active .node__bar {
+  opacity: 1;
+}
+
+.node--root.is-quiet {
+  filter: opacity(0.45);
+}
+
+/* Each cluster is a wrapper for layout only — children position against the
+   panel itself on desktop, and reflow into a stacked group on mobile. */
+.cluster {
+  display: contents;
+}
+
+/* ---------- Legend ---------- */
+
+.skills__legend {
+  margin-top: 1.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.5rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.skills__legend-title {
+  color: var(--accent-strong);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.legend-bar {
+  display: inline-block;
+  width: 58px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-strong) calc(var(--lvl) * 20%),
+    var(--chip-border) calc(var(--lvl) * 20%)
+  );
+}
+
+.skills__legend-hint {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  opacity: 0.75;
+}
+
+.skills a:focus-visible,
+.skills .node:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 4px;
   border-radius: 0.5rem;
 }
 
-/* ---------- Responsive ---------- */
+/* ---------- Stacked tree (below the constellation breakpoint) ---------- */
 
-@media (max-width: 720px) {
-  .tree-branches {
-    gap: 0.75rem;
+@media (max-width: 1023px) {
+  .constellation {
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.25rem 1rem 2.5rem;
   }
-  .tree-branch__node {
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    padding: 0.45rem 0.8rem;
+
+  .constellation__links {
+    display: none;
   }
-  .tree-branch__skill {
-    font-size: 0.72rem;
-    padding: 0.36rem 0.7rem;
+
+  .node {
+    position: relative;
+    left: auto;
+    top: auto;
+    translate: none;
   }
-  .tree-root {
-    padding: 0.7rem 1.3rem;
-    letter-spacing: 0.12em;
-    text-align: center;
+
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 100%;
+    position: relative;
+    padding-top: 2.4rem;
+  }
+
+  /* Trunk segment running from the element above into this cluster. */
+  .cluster::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% 0;
+    width: 2px;
+    height: 2.4rem;
+    border-radius: 999px;
+    background: linear-gradient(
+      to bottom,
+      var(--tree-line),
+      color-mix(in srgb, var(--tree-line) 40%, transparent)
+    );
+  }
+
+  .node--hub {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0.2rem;
+  }
+
+  .skills__legend-hint {
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
-  .tree-branches {
-    gap: 0.5rem;
+  .constellation {
+    padding: 1.75rem 0.75rem 2rem;
   }
-  .tree-branch {
-    padding: 0 0 1.5rem;
+
+  .node--hub {
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+  }
+
+  .node--skill {
+    font-size: 0.72rem;
+  }
+
+  .skills__legend {
+    justify-content: center;
   }
 }
 
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .tree-branch,
-  .tree-branch__node,
-  .tree-branch__skill,
-  .tree-branch__dot {
-    transition: none !important;
+  .link--pulse,
+  .sky-star,
+  .node--root::before {
     animation: none !important;
   }
+
+  .link--pulse {
+    display: none;
+  }
+
+  .sky-star {
+    opacity: 0.6;
+  }
+
+  .node,
+  .link,
+  .node__dot,
+  .node__bar {
+    transition-duration: 0.01ms !important;
+  }
 }
+

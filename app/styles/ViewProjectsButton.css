@@ -11,7 +11,7 @@
    ========================================================================== */
 
 @property --vp-angle {
-  syntax: '<angle>';
+  syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
 }
@@ -32,7 +32,7 @@
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.03)),
     rgba(8, 10, 18, 0.55);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
@@ -59,7 +59,7 @@
 /* --- rotating conic ring ------------------------------------------------- */
 
 .vp-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -73,9 +73,13 @@
     rgba(99, 102, 241, 0) 165deg,
     rgba(99, 102, 241, 0) 360deg
   );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   mask-composite: exclude;
   opacity: 0;
   pointer-events: none;
@@ -93,14 +97,19 @@
 /* --- sheen sweep -------------------------------------------------------- */
 
 .vp-btn::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -25%;
   left: 0;
   z-index: 2;
   width: 45%;
   height: 150%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
   transform: translateX(-240%) skewX(-18deg);
   pointer-events: none;
   transition: transform 0.95s var(--vp-ease);

@@ -5,9 +5,9 @@ import { useTheme } from './ThemeProvider';
 import '../styles/ThemeToggle.css';
 
 /**
- * Sun / moon toggle. Renders on a transparent navbar surface, so its icon
- * colour is driven by the same scroll-aware tokens as the nav links (white
- * over the always-dark hero, theme colour once scrolled).
+ * Sun / moon toggle. Renders on the transparent navbar, so its icon colour is
+ * driven by the same theme tokens as the nav links (dark ink in light mode,
+ * white in dark mode).
  */
 export function ThemeToggle() {
   const { theme, toggle } = useTheme();

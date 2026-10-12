@@ -1,7 +1,6 @@
-/* Theme sun/moon toggle. Lives in the navbar, so its colour is driven by the
-   same scroll-aware tokens as the nav links: white while sitting over the
-   always-dark hero, switching to the theme ink colour once the bar has
-   materialised on scroll. */
+/* Theme sun/moon toggle. Lives in the transparent navbar, so its colour is
+   driven by the same theme tokens as the nav links: dark ink in light mode,
+   white in dark mode. */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -9,9 +8,9 @@
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
+  border: 1px solid var(--card-border);
+  background: var(--chip-bg);
+  color: var(--nav-ink);
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease,
     transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
@@ -21,9 +20,9 @@
 
 .theme-toggle:hover {
   transform: translateY(-1px) scale(1.05);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15), 0 6px 18px rgba(0, 0, 0, 0.25);
+  background: var(--chip-border);
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 4px var(--chip-border);
 }
 
 .theme-toggle:active {
