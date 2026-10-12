@@ -1,0 +1,449 @@
+/* ==========================================================================
+   Contact section — form on the left, animated world map on the right.
+   The map is drawn by masking a gradient with /public/world.svg, so it
+   adapts to the light/dark themes and can be swept/lit from the inside.
+   ========================================================================== */
+
+.contact {
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--section-bg);
+  color: var(--foreground);
+  padding: clamp(4.5rem, 9vw, 8rem) 1.5rem clamp(5rem, 10vw, 9rem);
+}
+
+.contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 12%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 12%, transparent 75%);
+}
+
+.contact::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(38rem 22rem at 12% 10%, var(--glow-a), transparent 70%),
+    radial-gradient(38rem 22rem at 90% 90%, var(--glow-b), transparent 72%);
+}
+
+.contact__inner {
+  width: 100%;
+  max-width: 74rem;
+  margin-inline: auto;
+}
+
+/* ---------- Header ---------- */
+
+.contact__head {
+  max-width: 46rem;
+}
+
+.contact__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+.contact__eyebrow::before {
+  content: '';
+  width: 2.25rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #6366f1);
+}
+
+.contact__title {
+  margin: 1rem 0 0;
+  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.contact__lede {
+  margin-top: 1.15rem;
+  max-width: 38rem;
+  font-size: clamp(0.95rem, 1.6vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* ---------- Layout ---------- */
+
+.contact__grid {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .contact__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- Form ---------- */
+
+.contact__form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: clamp(1.4rem, 3vw, 2.1rem);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  background: var(--card-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 40px 90px -60px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.field__label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.field__input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--foreground);
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.field__input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.field__input:focus {
+  outline: none;
+  border-color: var(--focus-ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 22%, transparent);
+}
+
+.field__input[aria-invalid='true'] {
+  border-color: #f87171;
+}
+
+textarea.field__input {
+  min-height: 9rem;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.field__error {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: #dc2626;
+}
+
+:root[data-theme='dark'] .field__error {
+  color: #f87171;
+}
+
+/* Spam trap — never shown to humans. */
+.contact__hp {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact__foot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.contact__submit {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: linear-gradient(135deg, #491498, #6366f1);
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.9rem;
+  cursor: pointer;
+  box-shadow: 0 18px 42px -22px #6366f1;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), filter 0.3s var(--ease);
+}
+
+.contact__submit:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 26px 52px -22px #6366f1;
+}
+
+.contact__submit:active {
+  transform: translateY(0);
+}
+
+.contact__submit:disabled {
+  opacity: 0.65;
+  cursor: progress;
+  transform: none;
+}
+
+.contact__note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.contact__banner {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.contact__banner--ok {
+  color: #047857;
+  background: color-mix(in srgb, #34d399 14%, transparent);
+  border: 1px solid color-mix(in srgb, #34d399 45%, transparent);
+}
+
+.contact__banner--err {
+  color: #b91c1c;
+  background: color-mix(in srgb, #f87171 13%, transparent);
+  border: 1px solid color-mix(in srgb, #f87171 45%, transparent);
+}
+
+:root[data-theme='dark'] .contact__banner--ok {
+  color: #6ee7b7;
+}
+
+:root[data-theme='dark'] .contact__banner--err {
+  color: #fca5a5;
+}
+
+/* ---------- World visual ---------- */
+
+.contact__visual {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.world {
+  position: relative;
+  aspect-ratio: 2000 / 857;
+  border-radius: 22px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  overflow: hidden;
+  box-shadow:
+    0 40px 90px -60px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* The map: /public/world.svg as a mask over an accent gradient, so the same
+   asset works in both themes and can be animated from the inside. */
+.world__map {
+  position: absolute;
+  inset: 6% 4%;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #38bdf8 100%);
+  opacity: 0.5;
+  -webkit-mask-image: url('/world.svg');
+  mask-image: url('/world.svg');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  animation: world-float 9s ease-in-out infinite alternate;
+}
+
+:root[data-theme='dark'] .world__map {
+  opacity: 0.85;
+}
+
+/* Radar sweep — clipped to the continents by the parent's mask. */
+.world__sweep {
+  position: absolute;
+  inset: -30%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 300deg,
+    rgba(255, 255, 255, 0.55) 348deg,
+    rgba(255, 255, 255, 0) 360deg
+  );
+  mix-blend-mode: screen;
+  animation: world-sweep 7s linear infinite;
+}
+
+@keyframes world-float {
+  from {
+    transform: translateY(-5px) rotate(-0.4deg);
+  }
+  to {
+    transform: translateY(5px) rotate(0.4deg);
+  }
+}
+
+@keyframes world-sweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Glowing markers with expanding ping rings. */
+.world__pin {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: #c7d2fe;
+  box-shadow: 0 0 10px #818cf8, 0 0 22px rgba(99, 102, 241, 0.55);
+  z-index: 2;
+  animation: pin-glow 2.4s ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+
+.world__pin::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid #818cf8;
+  animation: pin-ping 2.4s ease-out infinite;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes pin-glow {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pin-ping {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.95;
+  }
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.world__caption {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.world__credit {
+  align-self: flex-end;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  opacity: 0.7;
+  text-decoration: none;
+  transition: opacity 0.25s var(--ease);
+}
+
+.world__credit:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ---------- Focus ---------- */
+
+.contact a:focus-visible,
+.contact__submit:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 600px) {
+  .contact__form {
+    padding: 1.25rem 1rem;
+  }
+
+  .contact__foot {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact__submit {
+    width: 100%;
+  }
+
+  .contact__note {
+    text-align: center;
+  }
+
+  .world__credit {
+    align-self: center;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .world__map,
+  .world__pin,
+  .world__pin::after {
+    animation: none !important;
+  }
+
+  .world__sweep {
+    display: none;
+  }
+
+  .contact__submit {
+    transition: none;
+  }
+}

@@ -1,4 +1,4 @@
-import { Hero, NavBar, ProjectsPreview, SkillsTree } from './components';
+import { ContactSection, Hero, NavBar, ProjectsPreview, SkillsTree } from './components';
 
 export default function Home() {
   return (
@@ -10,6 +10,7 @@ export default function Home() {
       />
       <SkillsTree />
       <ProjectsPreview />
+      <ContactSection />
     </main>
   );
 }
