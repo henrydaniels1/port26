@@ -3,18 +3,16 @@
 import type { CSSProperties } from 'react';
 import { useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { projects, type Project } from '../data/projects';
+import { motion } from 'framer-motion';
+import { projects, clientProjects, type Project } from '../data/projects';
 import '../styles/ProjectsPreview.css';
 
-/** Matches the --ease token used in ProjectsPreview.css / ViewProjectsButton.css. */
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 interface ProjectsPreviewProps {
   eyebrow?: string;
   title?: string;
   lede?: string;
-  /** How many of the newest projects to show. */
   max?: number;
 }
 
@@ -45,6 +43,24 @@ export function ProjectsPreview({
 
         <div className='projects__list'>
           {items.map((project, i) => (
+            <ProjectCard key={project.slug} project={project} index={i} />
+          ))}
+        </div>
+
+        {/* Company websites */}
+        <motion.div
+          className='projects__head projects__head--client'
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.7, ease: EASE }}>
+          <span className='projects__eyebrow'>Client Work</span>
+          <h2 className='projects__title big-shoulders-inline-bold'>Company Websites</h2>
+          <p className='projects__lede'>Websites I have built for real businesses and organisations.</p>
+        </motion.div>
+
+        <div className='projects__list'>
+          {clientProjects.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />
           ))}
         </div>
@@ -110,122 +126,122 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <ArrowUpRight />
           </a>
         )}
-        {/* {repoUrl && (
-          <a
-            className='project-card__action'
-            href={repoUrl}
-            target='_blank'
-            rel='noreferrer noopener'>
-            Source
-            <CodeIcon />
-          </a>
-        )} */}
       </div>
     </motion.article>
   );
 }
 
-const BUBBLE_CONFIG = [
-  { size: 18, x: 8,  y: 5  },
-  { size: 32, x: 15, y: 18 },
-  { size: 12, x: 25, y: 30 },
-  { size: 48, x: 78, y: 8  },
-  { size: 22, x: 88, y: 22 },
-  { size: 10, x: 60, y: 38 },
-  { size: 36, x: 50, y: 12 },
-  { size: 14, x: 92, y: 45 },
-  { size: 26, x: 38, y: 55 },
-  { size: 42, x: 5,  y: 48 },
-  { size: 16, x: 70, y: 60 },
-  { size: 8,  x: 45, y: 68 },
-  { size: 54, x: 82, y: 72 },
-  { size: 20, x: 20, y: 78 },
-  { size: 30, x: 55, y: 82 },
-  { size: 24, x: 3,  y: 88 },
-  { size: 40, x: 65, y: 92 },
-  { size: 14, x: 33, y: 95 },
-  { size: 28, x: 90, y: 85 },
-  { size: 10, x: 48, y: 42 },
-];
+// ---------- Physics-based Bubbles ----------
 
-/** Generates an array of random offsets to animate through, then loops */
-function randomWaypoints(count: number, spread: number): number[] {
-  return Array.from({ length: count }, () => (Math.random() - 0.5) * spread * 2);
-}
+const BUBBLE_SIZES = [8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 36, 40, 42, 48, 54, 28, 10];
 
-function Bubble({ size, x, y, mouseX, mouseY, seed }: {
-  size: number; x: number; y: number; seed: number;
-  mouseX: ReturnType<typeof useMotionValue<number>>;
-  mouseY: ReturnType<typeof useMotionValue<number>>;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const repelX = useSpring(0, { stiffness: 90, damping: 20 });
-  const repelY = useSpring(0, { stiffness: 90, damping: 20 });
-
-  const dur = 10 + (seed * 7.3) % 18;
-  const wxPoints = randomWaypoints(5, 28);
-  const wyPoints = randomWaypoints(5, 28);
-  const wxLoop = [...wxPoints, wxPoints[0]];
-  const wyLoop = [...wyPoints, wyPoints[0]];
-
-  useEffect(() => {
-    return mouseX.on('change', () => {
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = cx - mouseX.get();
-      const dy = cy - mouseY.get();
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const radius = 140;
-      if (dist < radius) {
-        const force = (1 - dist / radius) * 55;
-        repelX.set((dx / dist) * force);
-        repelY.set((dy / dist) * force);
-      } else {
-        repelX.set(0);
-        repelY.set(0);
-      }
-    });
-  }, [mouseX, mouseY, repelX, repelY]);
-
-  // Outer motion.div drifts randomly, inner motion.div handles mouse repel
-  return (
-    <motion.div
-      style={{ position: 'absolute', left: `${x}%`, top: `${y}%` }}
-      animate={{ x: wxLoop, y: wyLoop }}
-      transition={{ duration: dur, repeat: Infinity, ease: 'easeInOut', delay: (seed * 1.3) % 5 }}>
-      <motion.div
-        ref={ref}
-        className='bubble'
-        style={{ width: size, height: size, x: repelX, y: repelY }}
-      />
-    </motion.div>
-  );
-}
+const INITIAL_BUBBLE_STATE = BUBBLE_SIZES.map((size, i) => ({
+  size,
+  x: 5 + (i / BUBBLE_SIZES.length) * 88,
+  y: 2 + (i * 4.85) % 94,
+  vx: (Math.random() - 0.5) * 0.7,
+  vy: (Math.random() - 0.5) * 0.7,
+  el: null as HTMLDivElement | null,
+}));
 
 function Bubbles() {
-  const mouseX = useMotionValue(-9999);
-  const mouseY = useMotionValue(-9999);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mouseRef = useRef({ x: -9999, y: -9999 });
+  const stateRef = useRef(INITIAL_BUBBLE_STATE);
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Wire up DOM elements
+    const els = container.querySelectorAll<HTMLDivElement>('.bubble');
+    els.forEach((el, i) => { stateRef.current[i].el = el; });
+
     const onMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+      mouseRef.current = { x: e.clientX, y: e.clientY };
     };
     window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, [mouseX, mouseY]);
+
+    let raf: number;
+
+    const tick = () => {
+      const W = container.offsetWidth;
+      const H = container.offsetHeight;
+      if (W === 0 || H === 0) { raf = requestAnimationFrame(tick); return; }
+
+      stateRef.current.forEach(b => {
+        if (!b.el) return;
+
+        // Convert bubble centre to screen px for repel calculation
+        const bx = (b.x / 100) * W + b.size / 2;
+        const by = (b.y / 100) * H + b.size / 2;
+        const rect = container.getBoundingClientRect();
+        const mx = mouseRef.current.x - rect.left;
+        const my = mouseRef.current.y - rect.top;
+        const dx = bx - mx;
+        const dy = by - my;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Push away from cursor
+        const REPEL_R = 140;
+        if (dist < REPEL_R && dist > 0) {
+          const force = ((REPEL_R - dist) / REPEL_R) * 0.6;
+          b.vx += (dx / dist) * force;
+          b.vy += (dy / dist) * force;
+        }
+
+        // Random nudge so bubbles never fully stop
+        if (Math.random() < 0.005) {
+          b.vx += (Math.random() - 0.5) * 0.5;
+          b.vy += (Math.random() - 0.5) * 0.5;
+        }
+
+        // Dampen & cap speed
+        b.vx *= 0.983;
+        b.vy *= 0.983;
+        const speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+        const MAX_SPEED = 2.0;
+        if (speed > MAX_SPEED) {
+          b.vx = (b.vx / speed) * MAX_SPEED;
+          b.vy = (b.vy / speed) * MAX_SPEED;
+        }
+
+        // Advance position (px → %)
+        b.x += (b.vx / W) * 100;
+        b.y += (b.vy / H) * 100;
+
+        // Bounce off walls
+        const rw = (b.size / W) * 100;
+        const rh = (b.size / H) * 100;
+        if (b.x < 0)        { b.x = 0;        b.vx =  Math.abs(b.vx); }
+        if (b.x > 100 - rw) { b.x = 100 - rw; b.vx = -Math.abs(b.vx); }
+        if (b.y < 0)        { b.y = 0;        b.vy =  Math.abs(b.vy); }
+        if (b.y > 100 - rh) { b.y = 100 - rh; b.vy = -Math.abs(b.vy); }
+
+        b.el.style.left = `${b.x}%`;
+        b.el.style.top  = `${b.y}%`;
+      });
+
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove', onMove);
+    };
+  }, []);
 
   return (
-    <div className='bubbles' aria-hidden='true'>
-      {BUBBLE_CONFIG.map((b, i) => (
-        <Bubble key={i} {...b} seed={i} mouseX={mouseX} mouseY={mouseY} />
+    <div ref={containerRef} className='bubbles' aria-hidden='true'>
+      {BUBBLE_SIZES.map((size, i) => (
+        <div key={i} className='bubble' style={{ width: size, height: size }} />
       ))}
     </div>
   );
 }
+
+// ---------- Icons ----------
 
 function ArrowUpRight() {
   return (

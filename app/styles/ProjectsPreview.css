@@ -85,6 +85,10 @@
   max-width: 46rem;
 }
 
+.projects__head--client {
+  margin-top: clamp(3.5rem, 7vw, 5.5rem);
+}
+
 .projects__eyebrow {
   display: inline-flex;
   align-items: center;
