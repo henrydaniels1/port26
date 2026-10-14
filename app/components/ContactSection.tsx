@@ -164,15 +164,7 @@ export function ContactSection({
         ))}
       </div>
 
-      <a
-        className="contact__credit"
-        href="https://simplemaps.com"
-        target="_blank"
-        rel="noreferrer noopener"
-      >
-        World map © Simplemaps
-      </a>
-
+      
       <div className="contact__inner">
         <motion.div
           className="contact__head"

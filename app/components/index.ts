@@ -7,5 +7,6 @@ export { ViewProjectsButton } from './ViewProjectsButton';
 export { ProjectsPreview } from './ProjectsPreview';
 export { SkillsTree } from './SkillsTree';
 export { ContactSection } from './ContactSection';
+export { Footer } from './Footer';
 export { ThemeProvider, useTheme } from './ThemeProvider';
 export { ThemeToggle } from './ThemeToggle';
