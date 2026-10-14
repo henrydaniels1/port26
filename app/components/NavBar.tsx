@@ -31,7 +31,7 @@ export function NavBar() {
 
   return (
     <motion.nav
-      className={`nav-bar fixed top-4 left-0 right-0 md:left-4 md:right-4 z-100 px-6 md:px-12 py-4 flex justify-between items-center transition-all duration-300 rounded-2xl ${
+      className={`nav-bar fixed top-4 left-0 right-0 md:left-4 md:right-4 z-100 px-6 md:px-12 py-4 flex justify-between items-center transition-all duration-300 rounded-3xl ${
         scrolled ? "nav-scrolled" : ""
       } ${isOpen ? "nav-menu-open" : ""}`}
       initial={{ opacity: 0, y: -50 }}

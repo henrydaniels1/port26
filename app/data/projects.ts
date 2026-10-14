@@ -25,38 +25,39 @@ export interface Project {
  */
 export const projects: Project[] = [
   {
-    slug: 'ched-port',
-    title: 'Ched-Port',
+    slug: "ched-port",
+    title: "Ched-Port",
     tagline:
-      'My personal portfolio — an animated hero, an AI assistant trained on my profile, and a fully responsive interface built from scratch.',
-    year: '2026',
-    tags: ['Next.js', 'TypeScript', 'Framer Motion', 'OpenAI'],
-    accent: 'linear-gradient(135deg, #491498, #6366f1)',
-    liveUrl: 'https://ched-port.vercel.app',
+      "My personal portfolio — an animated hero, an AI assistant trained on my profile, and a fully responsive interface built from scratch.",
+    year: "2026",
+    tags: ["Next.js", "TypeScript", "Framer Motion"],
+    accent: "linear-gradient(135deg, #491498, #6366f1)",
+    liveUrl: "https://ched-port.vercel.app",
     featured: true,
   },
-  // TODO: replace with a real project (or delete this entry).
   {
-    slug: 'project-two',
-    title: 'Project Two',
+    slug: "project-two",
+    title: "RealEstate",
     tagline:
-      'One-line summary of what this project does, who it is for, and the problem it solves.',
-    year: '2025',
-    tags: ['React', 'Tailwind CSS', 'Firebase'],
-    accent: 'linear-gradient(135deg, #0e7490, #6366f1)',
-    liveUrl: '#',
-    repoUrl: '#',
+      "A modern real-estate platform for browsing, listing, and managing properties — featuring real-time search filters, interactive maps, and a clean agent dashboard.",
+    year: "2025",
+    tags: ["Next.js", "Tailwind CSS", "Supabase"],
+    image: "/hero.jpg",
+    accent: "linear-gradient(135deg, #0e7490, #6366f1)",
+    liveUrl: "https://ched-real-estate.vercel.app/",
+    repoUrl: "#",
   },
   // TODO: replace with a real project (or delete this entry).
   {
-    slug: 'project-three',
-    title: 'Project Three',
+    slug: "project-three",
+    title: "ChedChurch",
     tagline:
-      'One-line summary of what this project does, who it is for, and the problem it solves.',
-    year: '2025',
-    tags: ['Next.js', 'REST APIs', 'Three.js'],
-    accent: 'linear-gradient(135deg, #7c3aed, #db2777)',
-    liveUrl: '#',
-    repoUrl: '#',
+      "One-line summary of what this project does, who it is for, and the problem it solves.",
+    year: "2025",
+    tags: ["Next.js", "REST APIs", "Three.js"],
+     image: "https://i.pinimg.com/736x/25/02/2c/25022c631f497a11c407e6d24791ace5.jpg",
+    accent: "linear-gradient(135deg, #7c3aed, #db2777)",
+    liveUrl: "https://ched-peacechapel.vercel.app/",
+    repoUrl: "#",
   },
 ];

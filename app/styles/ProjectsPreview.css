@@ -47,9 +47,36 @@
 
 .projects__inner {
   position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 74rem;
   margin-inline: auto;
+}
+
+/* ---------- Bubbles ---------- */
+
+.bubbles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(200, 200, 210, 0.22), rgba(160, 160, 175, 0.05));
+  border: 1px solid rgba(210, 210, 230, 0.15);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+}
+
+@media (prefers-color-scheme: light) {
+  .bubble {
+    background: radial-gradient(circle at 35% 35%, rgba(100, 100, 120, 0.25), rgba(80, 80, 110, 0.1));
+    border: 1px solid rgba(80, 80, 120, 0.3);
+  }
 }
 
 /* ---------- Header ---------- */

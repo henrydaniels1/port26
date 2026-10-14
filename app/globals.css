@@ -8,24 +8,24 @@
 
 :root {
   /* ===== Light theme (default when no data-theme is present) ===== */
-  --background: #f5f6fb;
+  --background: #dfe1eb;
   --foreground: #16171f;
 
   --nav-logo-color: #16171f;
   --nav-link-color: #16171f;
   --nav-ink: #16171f; /* hamburger + theme toggle */
-  --nav-scrolled-bg: rgba(255, 255, 255, 0.78);
-  --nav-scrolled-border: rgba(18, 22, 40, 0.1);
-  --nav-scrolled-shadow: 0 4px 24px rgba(18, 22, 40, 0.08);
-  --nav-overlay-bg: rgba(255, 255, 255, 0.94);
+  --nav-scrolled-bg: rgba(220, 222, 235, 0.88);
+  --nav-scrolled-border: rgba(18, 22, 40, 0.14);
+  --nav-scrolled-shadow: 0 4px 24px rgba(18, 22, 40, 0.12);
+  --nav-overlay-bg: rgba(220, 222, 235, 0.96);
 
-  --section-bg: #f5f6fb;
-  --card-bg: rgba(255, 255, 255, 0.72);
-  --card-border: rgba(18, 22, 40, 0.1);
-  --text-muted: #5b647a;
+  --section-bg: #dfe1eb;
+  --card-bg: rgba(210, 213, 228, 0.85);
+  --card-border: rgba(18, 22, 40, 0.14);
+  --text-muted: #4a5268;
 
-  --chip-bg: rgba(18, 22, 40, 0.04);
-  --chip-border: rgba(18, 22, 40, 0.1);
+  --chip-bg: rgba(18, 22, 40, 0.07);
+  --chip-border: rgba(18, 22, 40, 0.14);
   --chip-text: #39415a;
 
   --grid-line: rgba(99, 102, 241, 0.12);

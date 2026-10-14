@@ -41,6 +41,8 @@
 }
 
 .contact__inner {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 74rem;
   margin-inline: auto;
@@ -91,7 +93,7 @@
 .contact__grid {
   margin-top: clamp(2.5rem, 5vw, 3.5rem);
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
 }
@@ -259,33 +261,28 @@ textarea.field__input {
   color: #fca5a5;
 }
 
-/* ---------- World visual ---------- */
+/* ---------- World map (section background) ---------- */
 
-.contact__visual {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-.world {
-  position: relative;
+/* Oversized, centred behind everything — the map is the main backdrop. */
+.contact__map {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: max(125%, 900px);
   aspect-ratio: 2000 / 857;
-  border-radius: 22px;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  overflow: hidden;
-  box-shadow:
-    0 40px 90px -60px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  z-index: -1;
+  pointer-events: none;
+  animation: world-float 9s ease-in-out infinite alternate;
 }
 
-/* The map: /public/world.svg as a mask over an accent gradient, so the same
-   asset works in both themes and can be animated from the inside. */
+/* /public/world.svg as a mask over an accent gradient, so the same asset
+   works in both themes and can be lit from the inside. */
 .world__map {
   position: absolute;
-  inset: 6% 4%;
+  inset: 0;
   background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #38bdf8 100%);
-  opacity: 0.5;
+  opacity: 0.2;
   -webkit-mask-image: url('/world.svg');
   mask-image: url('/world.svg');
   -webkit-mask-size: contain;
@@ -294,11 +291,10 @@ textarea.field__input {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  animation: world-float 9s ease-in-out infinite alternate;
 }
 
 :root[data-theme='dark'] .world__map {
-  opacity: 0.85;
+  opacity: 0.42;
 }
 
 /* Radar sweep — clipped to the continents by the parent's mask. */
@@ -344,6 +340,15 @@ textarea.field__input {
   animation-delay: var(--d, 0s);
 }
 
+/* The "home" marker sits over Ibadan. */
+.world__pin--home {
+  width: 13px;
+  height: 13px;
+  background: #a5b4fc;
+  box-shadow: 0 0 14px #6366f1, 0 0 34px rgba(99, 102, 241, 0.75);
+  z-index: 3;
+}
+
 .world__pin::after {
   content: '';
   position: absolute;
@@ -352,6 +357,12 @@ textarea.field__input {
   border: 1.5px solid #818cf8;
   animation: pin-ping 2.4s ease-out infinite;
   animation-delay: var(--d, 0s);
+}
+
+.world__pin--home::after {
+  inset: -7px;
+  border-width: 2px;
+  border-color: #6366f1;
 }
 
 @keyframes pin-glow {
@@ -375,24 +386,115 @@ textarea.field__input {
   }
 }
 
-.world__caption {
-  margin: 0.25rem 0 0;
-  font-size: 0.9rem;
+/* ---------- Contact info (right column) ---------- */
+
+.contact__info {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  background: var(--card-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 40px 90px -60px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.contact__info-lead {
+  margin: 0;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--foreground);
+}
+
+.contact__info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.contact__info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.contact__info-icon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: var(--accent-strong);
+  background: color-mix(in srgb, var(--focus-ring) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--focus-ring) 35%, transparent);
+}
+
+.contact__info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.contact__info-label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.contact__info-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.contact__info-phone {
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-strong);
+  text-decoration: none;
+  transition: color 0.25s var(--ease), text-shadow 0.25s var(--ease);
+}
+
+.contact__info-phone:hover {
+  color: #6366f1;
+  text-shadow: 0 0 18px color-mix(in srgb, #6366f1 55%, transparent);
+}
+
+.contact__info-note {
+  margin: 0;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--card-border);
+  font-size: 0.82rem;
   line-height: 1.6;
   color: var(--text-muted);
 }
 
-.world__credit {
-  align-self: flex-end;
-  font-size: 0.65rem;
+/* Attribution for the map asset (its MIT license asks for it). */
+.contact__credit {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1rem;
+  z-index: 1;
+  font-size: 0.62rem;
   letter-spacing: 0.06em;
   color: var(--text-muted);
-  opacity: 0.7;
+  opacity: 0.65;
   text-decoration: none;
   transition: opacity 0.25s var(--ease);
 }
 
-.world__credit:hover {
+.contact__credit:hover {
   opacity: 1;
   text-decoration: underline;
 }
@@ -425,15 +527,15 @@ textarea.field__input {
     text-align: center;
   }
 
-  .world__credit {
-    align-self: center;
+  .contact__info {
+    padding: 1.4rem 1.1rem;
   }
 }
 
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .world__map,
+  .contact__map,
   .world__pin,
   .world__pin::after {
     animation: none !important;
