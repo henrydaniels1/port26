@@ -90,7 +90,7 @@ export function NavBar() {
         {isOpen && (
           <motion.div
             key="mobile-menu"
-            className="fixed inset-0 z-105 flex flex-col items-center justify-center nav-mobile-overlay"
+            className="fixed inset-0 z-105 flex flex-col items-center h-screen justify-center nav-mobile-overlay"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
