@@ -2,13 +2,16 @@ import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
 import aboutMe from '@/app/context/about-me';
 
-const apiKey = process.env.OPENAI_API_KEY;
+const apiKey = process.env.GROQ_API_KEY;
 
 if (!apiKey) {
-  console.error('OPENAI_API_KEY is not set. Add it to .env.local (and, if deploying, to your host environment variables).');
+  console.error('GROQ_API_KEY is not set. Add it to .env.local.');
 }
 
-const client = new OpenAI({ apiKey: apiKey ?? 'missing-key' });
+const client = new OpenAI({
+  apiKey: apiKey ?? 'missing-key',
+  baseURL: 'https://api.groq.com/openai/v1',
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,13 +23,13 @@ export async function POST(req: NextRequest) {
 
     if (!apiKey) {
       return NextResponse.json(
-        { error: 'Server is not configured: OPENAI_API_KEY is missing.' },
+        { error: 'Server is not configured: GROQ_API_KEY is missing.' },
         { status: 500 }
       );
     }
 
     const response = await client.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'openai/gpt-oss-120b',
       max_tokens: 512,
       messages: [{ role: 'system', content: aboutMe }, ...messages],
     });

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FileDown, Code2, ClipboardCheck, Wallet, Users } from "lucide-react";
 import "../styles/About.css";
+import { Bubbles } from "../components/Bubbles";
 
 const experienceData = [
   {
@@ -35,6 +36,7 @@ export default function AboutPage() {
     <main className="about-page">
       {/* ===================== About Hero ===================== */}
       <section className="about-hero">
+        <Bubbles />
         <div className="about-hero__squares" aria-hidden="true">
           {[1,2,3,4,5,6,7,8].map(n => (
             <div key={n} className={`about-sq about-sq-${n}`} />

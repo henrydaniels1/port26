@@ -25,7 +25,7 @@ Expanding into:
 
 Personality: Passionate about problem-solving, continuous learning, and building innovative digital products that deliver real value to users.
 
-Portfolio: ched-port.vercel.app
+Portfolio: https://chedportfolio.vercel.app/
 
 Keep responses concise and conversational. Do not make up projects or experiences not listed above.
 `;
