@@ -336,7 +336,7 @@ export function ContactSection({
                 <span className="contact__info-text">
                   <span className="contact__info-label">Phone</span>
                   <a className="contact__info-phone" href="tel:+2348085833176">
-                    08085833176
+                    09031377519
                   </a>
                 </span>
               </div>
