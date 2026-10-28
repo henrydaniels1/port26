@@ -2,12 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { ChedLogo } from "./ChedLogo";
 import { ThemeToggle } from "./ThemeToggle";
 import "../styles/Nav.css";
 import "../styles/ThemeToggle.css";
 
-const links = ["About Me", "Projects", "Contact"];
+const links = [
+  { text: "About Me", href: "/about" },
+  { text: "Projects", href: "/#projects" },
+  { text: "Contact", href: "/#contact" },
+];
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,14 +50,14 @@ export function NavBar() {
 
       {/* Desktop links */}
       <div className="hidden md:flex nav-links-desktop nav-font items-center gap-8">
-        {links.map((text, i) => (
-          <a
+        {links.map((link, i) => (
+          <Link
             key={i}
-            href={`#${text.toLowerCase().replace(" ", "")}`}
+            href={link.href}
             className="nav-link hvr-underline-from-center text-[0.95rem] tracking-wider uppercase text-white font-semibold"
           >
-            {text}
-          </a>
+            {link.text}
+          </Link>
         ))}
       </div>
 
@@ -97,18 +102,16 @@ export function NavBar() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             <nav className="flex flex-col items-center gap-10 nav-links-mobile nav-font">
-              {links.map((text, i) => (
-                <motion.a
-                  key={i}
-                  href={`#${text.toLowerCase().replace(" ", "")}`}
-                  className="nav-link hvr-underline-from-center text-2xl tracking-widest uppercase font-semibold"
-                  onClick={close}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 + i * 0.1 }}
-                >
-                  {text}
-                </motion.a>
+              {links.map((link, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.1 }}>
+                  <Link
+                    href={link.href}
+                    className="nav-link hvr-underline-from-center text-2xl tracking-widest uppercase font-semibold"
+                    onClick={close}
+                  >
+                    {link.text}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
           </motion.div>
